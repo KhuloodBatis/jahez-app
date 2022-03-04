@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Meal;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use App\Models\User;
+
+
 
 class OrderController extends Controller
 {
@@ -14,7 +18,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-       return Order::all();
+        return Order::all();
     }
 
     /**
@@ -36,14 +40,19 @@ class OrderController extends Controller
             'user_id' => (['integer', 'required']),
             'restaurant_id' => (['integer', 'required']),
             'price' => (['integer', 'required']),
+            //
+            // if( $meals == 'name '){}
+            'meal' => (['required']),
 
         ]);
 
         $order = Order::create([
-            'user_id' => $request->name,
-            'restaurant_id' => $request->price,
-            'price' => $request->restaurant_id,
+            'user_id' => $request->user_id,
+            'restaurant_id' => $request->restaurant_id,
+            'price' => $request->price,
+
         ]);
+        //$order->meals()->attach($request->meal);
         return $order;
     }
 
@@ -55,32 +64,11 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
+        $meals = Meal::all();
         return $order;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Order $order ,Request $request)
-    {
-        $request->validate([
-            'user_id' => (['integer', 'required']),
-            'restaurant_id' => (['integer', 'required']),
-            'price' => (['integer', 'required']),
 
-        ]);
-
-        $order->update([
-            'user_id' => $request->user_id,
-            'restaurant_id' => $request->user_id,
-            'price' => $request->user_id,
-        ]);
-        return $order;
-
-    }
 
     /**
      * Update the specified resource in storage.
@@ -91,7 +79,22 @@ class OrderController extends Controller
      */
     public function update(Request $request, Order $order)
     {
-        //
+        $request->validate([
+            'user_id' => (['integer', 'required']),
+            'restaurant_id' => (['integer', 'required']),
+            'price' => (['integer', 'required']),
+            'meal_id' => (['integer', 'required']),
+
+        ]);
+
+        $order->update([
+            'user_id' => $request->user_id,
+            'restaurant_id' => $request->user_id,
+            'price' => $request->user_id,
+            'meal_id' => [$request->meal_id],
+        ]);
+        //to allow the user update meals
+        return $order->meal()->sync($request->meals);
     }
 
     /**
@@ -102,6 +105,7 @@ class OrderController extends Controller
      */
     public function destroy(Order $order)
     {
-        //
+        $order->delete();
+        return 'order was deleted';
     }
 }

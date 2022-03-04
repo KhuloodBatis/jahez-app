@@ -47,9 +47,14 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function restaurants(): BelongsToMany
+  
+    /**
+     * The roles that belong to the User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function orders(): BelongsTo
     {
-        return $this->belongsToMany(Restaurant::class, 'restaurant_id');
+        return $this->belongsTo(Order::class);
     }
-
 }

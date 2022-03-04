@@ -20,15 +20,9 @@ class Restaurant extends Model
 
         return $this->hasMany(Meal::class);
     }
-    /**
-     * The users that belong to the Restaurant
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-   /**
-    * The roles that belong to the Restaurant
-    *
-    * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    */
-  
+
+    public function orders(): BelongsTo
+    {
+        return $this->belongsTo(Order::class);
+    }
 }

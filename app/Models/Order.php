@@ -11,7 +11,7 @@ class Order extends Model
     use HasFactory;
 
     protected $fillable = [
-        'restaurant_id', 'user_id', 'price',
+        'user_id', 'restaurant_id', 'price',
     ];
 
     /**
@@ -19,14 +19,30 @@ class Order extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
+    /**
+     * Get the user associated with the Order
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
 
-    public function restaurant(): BelongsToMany
+
+    public function restaurant(): HasOne
     {
-        return $this->belongsTo(Restaurant::class, 'restaurant_id');
+        return $this->hasOne(Restaurant::class, 'restaurant_id');
     }
 
-    public function user(): BelongsToMany
+    public function user(): HasOne
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->hasOne(User::class, 'user_id');
+    }
+
+    /**
+     * The roles that belong to the Order
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function meal(): BelongsToMany
+    {
+        return $this->belongsToMany(Meal::class);
     }
 }

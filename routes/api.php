@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MealController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RestaurantController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,3 +43,10 @@ Route::post('meals', [MealController::class, 'store']);
 Route::get('meals/{meal}', [MealController::class, 'show']);
 Route::put('meals/{meal}', [MealController::class, 'update']);
 Route::delete('meals/{meal}', [MealController::class, 'destroy']);
+
+//routes order
+Route::get('orders', [OrderController::class, 'index']);
+Route::post('orders', [OrderController::class, 'store']);
+Route::get('orders/{order}', [OrderController::class, 'show']);
+Route::put('orders/{order}', [OrderController::class, 'update']);
+Route::delete('orders/{order}', [OrderController::class, 'destroy']);
