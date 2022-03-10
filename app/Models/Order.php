@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
@@ -14,34 +16,24 @@ class Order extends Model
         'user_id', 'restaurant_id', 'price',
     ];
 
-    /**
-     * The roles that belong to the Order
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    /**
-     * Get the user associated with the Order
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
+ /**
+  * Get the user associated with the Order
+  *
+  * @return \Illuminate\Database\Eloquent\Relations\HasOne
+  */
+ public function user(): BelongsTo
+ {
+     return $this->belongsTo(User::class, 'foreign_key', 'local_key');
+ }
 
-
-    public function restaurant(): HasOne
+    public function restaurant(): BelongsTo
     {
-        return $this->hasOne(Restaurant::class, 'restaurant_id');
+        return $this->belongsTo(Restaurant::class, 'restaurant_id');
     }
 
-    public function user(): HasOne
-    {
-        return $this->hasOne(User::class, 'user_id');
-    }
 
-    /**
-     * The roles that belong to the Order
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function meal(): BelongsToMany
+
+    public function meals(): BelongsToMany
     {
         return $this->belongsToMany(Meal::class);
     }

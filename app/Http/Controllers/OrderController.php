@@ -40,9 +40,8 @@ class OrderController extends Controller
             'user_id' => (['integer', 'required']),
             'restaurant_id' => (['integer', 'required']),
             'price' => (['integer', 'required']),
-            //
-            // if( $meals == 'name '){}
-            'meal' => (['required']),
+
+            //'meals' => (['required']),
 
         ]);
 
@@ -50,9 +49,11 @@ class OrderController extends Controller
             'user_id' => $request->user_id,
             'restaurant_id' => $request->restaurant_id,
             'price' => $request->price,
+            //'meals' => $request->meals,
 
         ]);
-        //$order->meals()->attach($request->meal);
+        $meals = 'burger';
+        $order->meals()->attach('meals');
         return $order;
     }
 
