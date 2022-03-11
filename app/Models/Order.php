@@ -16,25 +16,25 @@ class Order extends Model
         'user_id', 'restaurant_id', 'price',
     ];
 
- /**
-  * Get the user associated with the Order
-  *
-  * @return \Illuminate\Database\Eloquent\Relations\HasOne
-  */
- public function user(): BelongsTo
- {
-     return $this->belongsTo(User::class, 'foreign_key', 'local_key');
- }
+    /**
+     * Get the user associated with the Order
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
 
     public function restaurant(): BelongsTo
     {
-        return $this->belongsTo(Restaurant::class, 'restaurant_id');
+        return $this->belongsTo(Restaurant::class);
     }
 
 
 
     public function meals(): BelongsToMany
     {
-        return $this->belongsToMany(Meal::class);
+        return $this->belongsToMany(Meal::class, 'meal_order', 'meal_id');
     }
 }

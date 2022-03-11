@@ -40,7 +40,7 @@ class RestaurantController extends Controller
      */
     public function show(Restaurant $restaurant)
     {
-        return $restaurant->load('meals');
+        return $restaurant->load('meals', 'orders');
     }
 
 

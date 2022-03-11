@@ -41,7 +41,7 @@ class OrderController extends Controller
             'restaurant_id' => (['integer', 'required']),
             'price' => (['integer', 'required']),
 
-            //'meals' => (['required']),
+            'meal_ids' => (['required']),
 
         ]);
 
@@ -49,11 +49,11 @@ class OrderController extends Controller
             'user_id' => $request->user_id,
             'restaurant_id' => $request->restaurant_id,
             'price' => $request->price,
-            //'meals' => $request->meals,
+            'meal_id' => $request->meal_ids,
 
         ]);
-        $meals = 'burger';
-        $order->meals()->attach('meals');
+
+        $order->meals()->attach($request->meal_ids);
         return $order;
     }
 
@@ -65,8 +65,8 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        $meals = Meal::all();
-        return $order;
+
+        return $order->load('user', 'restaurant', 'meals');
     }
 
 
@@ -95,7 +95,7 @@ class OrderController extends Controller
             'meal_id' => [$request->meal_id],
         ]);
         //to allow the user update meals
-        return $order->meal()->sync($request->meals);
+        return $order->meal()->sync($request->meal_id);
     }
 
     /**
